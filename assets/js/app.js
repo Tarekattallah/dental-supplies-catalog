@@ -763,11 +763,11 @@
     return `<div class="table-wrap"><table class="data-table">
       <thead><tr><th>رقم الطلب</th><th>العميل</th><th>طريقة الاستلام</th><th>إجمالي المنتجات</th><th>الحالة</th><th>الإجراء</th></tr></thead>
       <tbody>${list.map((o) => `<tr class="${a.openOrder === o.id ? 'selected' : ''}">
-        <td class="ord"><bdi>#${esc(o.id)}</bdi><div class="muted" style="font-family:var(--f-body);font-weight:400;font-size:12.5px">${esc(fmtDate(o.date))}</div></td>
-        <td>${esc(o.customer.name)}<div class="muted lat" style="font-size:13px">${esc(o.customer.phone)}</div></td>
-        <td>${o.method === 'pickup' ? 'استلام من الفرع' : 'توصيل للعنوان'}</td>
-        <td class="amt"><strong>${money(o.total)}</strong><small>${fmt(o.items.length)} منتجات</small></td>
-        <td>${statusPill(o.status)}</td>
+        <td class="ord" data-label="رقم الطلب"><div><bdi>#${esc(o.id)}</bdi><div class="muted" style="font-family:var(--f-body);font-weight:400;font-size:12.5px">${esc(fmtDate(o.date))}</div></div></td>
+        <td data-label="العميل"><div>${esc(o.customer.name)}<div class="muted lat" style="font-size:13px">${esc(o.customer.phone)}</div></div></td>
+        <td data-label="الاستلام">${o.method === 'pickup' ? 'استلام من الفرع' : 'توصيل للعنوان'}</td>
+        <td class="amt" data-label="الإجمالي"><strong>${money(o.total)}</strong><small>${fmt(o.items.length)} منتجات</small></td>
+        <td data-label="الحالة">${statusPill(o.status)}</td>
         <td><button type="button" class="view-btn" data-act="open-order" data-id="${esc(o.id)}">${I('eye', 'sm')} عرض</button></td>
       </tr>`).join('')}</tbody></table></div>`;
   }
@@ -833,11 +833,11 @@
         const v = offer || p.variants[0];
         const range = pMin(p) !== pMax(p);
         return `<tr class="${ui.admin.editId === p.id ? 'selected' : ''}">
-          <td style="width:170px"><img src="${p.thumb || p.images[0]}" alt="" style="width:150px;height:100px;object-fit:cover;border-radius:8px"></td>
-          <td><strong class="lat" style="display:block">${esc(p.brand + ' ' + p.model)}</strong><span>${esc(p.name)}</span><div class="chips" style="margin-top:10px">${p.variants.map((x) => `<span class="chip static">${esc(x.label)}</span>`).join('')}</div></td>
-          <td>${esc(catName(p.category))}</td>
-          <td>${offer ? `<span class="money-old">${fmt(v.basePrice)}</span>` : `<span>${range ? 'من ' : ''}${fmt(Math.min(...p.variants.map((x) => x.basePrice)))}</span>`}</td>
-          <td>${offer ? `<span class="money-new">${fmt(v.offerPrice)}</span>` : '<span class="muted">—</span>'}</td>
+          <td class="cell-block" style="width:170px"><img src="${p.thumb || p.images[0]}" alt="" style="width:150px;height:100px;object-fit:cover;border-radius:8px"></td>
+          <td class="cell-block"><strong class="lat" style="display:block">${esc(p.brand + ' ' + p.model)}</strong><span>${esc(p.name)}</span><div class="chips" style="margin-top:10px">${p.variants.map((x) => `<span class="chip static">${esc(x.label)}</span>`).join('')}</div></td>
+          <td data-label="القسم">${esc(catName(p.category))}</td>
+          <td data-label="السعر الأصلي">${offer ? `<span class="money-old">${fmt(v.basePrice)}</span>` : `<span>${range ? 'من ' : ''}${fmt(Math.min(...p.variants.map((x) => x.basePrice)))}</span>`}</td>
+          <td data-label="سعر العرض">${offer ? `<span class="money-new">${fmt(v.offerPrice)}</span>` : '<span class="muted">—</span>'}</td>
           <td><button type="button" class="view-btn" data-act="edit-prod" data-id="${p.id}">${I('edit', 'sm')} تعديل</button></td>
         </tr>`;
       }).join('')}</tbody></table></div>`;
